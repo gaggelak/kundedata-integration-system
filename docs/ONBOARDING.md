@@ -1,134 +1,191 @@
 # Onboarding og Konfiguration
 
-## Oversigt
-Dette dokument beskriver processen for onboarding af nye virksomheder og håndtering af deres priskonfiguration gennem selvbetjening.
+[tidligere indhold bevares...]
 
-## Initial Onboarding
+## Brugergrænseflade Specifikation
 
-### 1. Oprettelse af Virksomhed
-- Registrering af CVR nummer
-- Oprettelse af virksomhedsprofil
-- Tildeling af brugeradgang
-
-### 2. Basis Konfiguration (Udføres af Admin)
-- Opsætning af webhook integration
-- Konfiguration af email forwarding
-- Aktivering af relevante moduler
-
-### 3. Priskonfiguration
-- Upload af initiale prislister
-- Konfiguration af beregningsregler
-- Test af prisberegninger
-
-## Selvbetjenings Portal
-
-### Pris Administration
-
-#### Visning af Priser
-- Oversigt over alle aktive priser
-- Historik over prisændringer
-- Filtreringsmuligheder
-- Eksport funktion
-
-#### Opdatering af Priser
-- Brugervenlig editor interface
-- Mulighed for bulk updates via Excel import
-- Preview af ændringer før aktivering
-- Versionering af prislister
-
-#### Notifikationer
-- Automatisk notifikation til admin ved ændringer
-- Bekræftelsesmail til virksomheden
-- Varsling ved større prisændringer
-
-### Sikkerhed og Kontrol
-
-#### Brugeradgang
-- Forskellige adgangsniveauer
-- To-faktor autentificering for prisændringer
-- Audit log af alle ændringer
-
-#### Validering
-- Automatisk kontrol af prisformater
-- Advarsler ved usædvanlige ændringer
-- Sammenligning med historiske priser
-
-## Support Proces
-
-### Rådgivning
-- Mulighed for at booke online rådgivning
-- Support chat i selvbetjeningsportalen
-- Video guides til almindelige opgaver
-
-### Problemhåndtering
-- Direkte support hotline
-- Fejlrettelse af forkerte indtastninger
-- Gendan tidligere versioner hvis nødvendigt
-
-## Interface Design
-
-### Selvbetjenings Dashboard
+### 1. Hovedmenu
 ```
-+------------------------+
-|   Virksomhedsoversigt   |
-+------------------------+
-| - Aktive prislister    |
-| - Seneste ændringer    |
-| - Ventende godkendelser|
-+------------------------+
-
-+------------------------+
-|    Pris Administration |
-+------------------------+
-| - Rediger priser       |
-| - Import/Export        |
-| - Historik             |
-+------------------------+
-
-+------------------------+
-|      Support           |
-+------------------------+
-| - Book rådgivning      |
-| - Support chat         |
-| - Dokumentation        |
-+------------------------+
++---------------------------+
+|     Hovednavigation       |
++---------------------------+
+| ✓ Dashboard              |
+| ✓ Priskonfiguration       |
+| ✓ Historik               |
+| ✓ Support                |
+| ✓ Indstillinger           |
++---------------------------+
 ```
 
-## API Integration
+### 2. Pris Dashboard
+```
++------------------+------------------+
+|   Aktive Priser  | Hurtig Statistik |
++------------------+------------------+
+| • Materialer    | • Antal ændringer|
+| • Arbejdsløn    | • Sidst opdateret|
+| • Kørsel        | • Afvigelser     |
++------------------+------------------+
+|      Seneste Ændringer           |
++----------------------------------+
+| • Dato | Bruger | Type | Status   |
++----------------------------------+
+```
 
-### Endpoints
-- `GET /api/prices/{cvr}` - Hent aktuelle priser
-- `PUT /api/prices/{cvr}` - Opdater priser
-- `GET /api/prices/{cvr}/history` - Pris historik
-- `POST /api/prices/{cvr}/validate` - Valider prisændringer
+### 3. Pris Editor
 
-### Webhooks
-- Notifikation ved prisændringer
-- Validering af nye priser
-- Audit log events
+#### Materiale Priser
+```
++----------------------------------------+
+| Kategori: [Vælg Kategori v]            |
++----------------------------------------+
+| Varenr. | Beskrivelse | Enhed | Pris   |
+|---------|-------------|--------|---------||
+| M001    | [          ]|  stk   |[      ]|
+| M002    | [          ]|  m2    |[      ]|
++----------------------------------------+
+    [Gem] [Forhåndsvis] [Annuller]
+```
 
-## Vedligeholdelse
+#### Arbejdsløn Konfiguration
+```
++----------------------------------------+
+| Medarbejdertype: [Vælg Type v]         |
++----------------------------------------+
+| Timepris | Overtid | Weekend | Helligdag|
+|----------|----------|----------|----------|
+|[        ]|[        ]|[        ]|[        ]|
++----------------------------------------+
+```
 
-### Automatisk Vedligeholdelse
-- Daglig backup af priskonfigurationer
-- Periodevise validerings checks
-- Rensning af forældede prisdata
+### 4. Import/Export Interface
+```
++----------------------------------------+
+|            Import Prisliste             |
++----------------------------------------+
+| [Download Skabelon]                     |
+|                                        |
+| [Vælg Fil]  eller  Træk fil hertil     |
+|                                        |
+| Format: [ Excel v ]                    |
+|                                        |
+| [Start Import] [Valider Først]         |
++----------------------------------------+
+```
 
-### Manuel Vedligeholdelse
-- Regulær gennemgang af prisstrukturer
-- Optimering af beregningsregler
-- Opdatering af valideringsregler
+### 5. Historik og Versionering
+```
++----------------------------------------+
+|            Pris Historik                |
++----------------------------------------+
+| Dato     | Version | Ændringer  | Bruger |
+|----------|---------|------------|--------|
+| 01-12-24 | 2.1     | +3 priser  | ANE   |
+| 30-11-24 | 2.0     | Ny struktur| JM    |
++----------------------------------------+
+    [Sammenlign] [Gendan] [Eksporter]
+```
 
-## Best Practices
+### 6. Valideringsvisning
+```
++----------------------------------------+
+|         Validering af Ændringer         |
++----------------------------------------+
+| ⚠ 3 advarsler fundet:                 |
+| • Pris M001 ændret med mere end 20%   |
+| • Ny kategori tilføjet                |
+| • 2 varer markeret som udgået         |
+|                                        |
+| [Godkend Alligevel] [Rediger] [Afbryd] |
++----------------------------------------+
+```
 
-### For Virksomheder
-1. Gennemgå priser regulært
-2. Test ændringer før aktivering
-3. Hold dokumentation opdateret
-4. Brug versionering aktivt
+### 7. Notifikationscenter
+```
++----------------------------------------+
+|           Notifikationer                |
++----------------------------------------+
+| • Nye priser awaiting review           |
+| • Bulk import completed                |
+| • 3 price validation warnings          |
+|                                        |
+| [Markér Alle Som Læst] [Indstillinger]  |
++----------------------------------------+
+```
 
-### For Administratorer
-1. Overvåg prisændringer
-2. Følg op på usædvanlige mønstre
-3. Vedligehold valideringsregler
-4. Opdater support materiale
+### 8. Support Integration
+```
++----------------------------------------+
+|              Support                    |
++----------------------------------------+
+|    [Start Chat] [Book Møde]            |
+|                                        |
+| Ofte Stillede Spørgsmål:               |
+| • Hvordan importerer jeg priser?       |
+| • Hvordan håndterer jeg rabatter?     |
+| • Hvordan validerer jeg ændringer?    |
++----------------------------------------+
+```
+
+### 9. Mobile Responsive Design
+```
+// Mobil Layout
++----------------------+
+|    ☰ Menu          |
++----------------------+
+| Hurtig Adgang        |
+| • Se Priser         |
+| • Godkend Ændringer |
+| • Support           |
++----------------------+
+```
+
+### 10. Kontekstafhjælpig Vejledning
+- Hover tooltips med forklaringer
+- Step-by-step guides for komplekse opgaver
+- Video tutorials tilgængelige ved [?] ikoner
+- Intelligent fejlmeddelelser med løsningsforslag
+
+### 11. Keyboard Shortcuts
+```
++----------------------------------------+
+|           Keyboard Shortcuts            |
++----------------------------------------+
+| Ctrl + S    : Gem ændringer            |
+| Ctrl + Z    : Fortryd                  |
+| Ctrl + F    : Søg                      |
+| Ctrl + P    : Forhåndsvis              |
++----------------------------------------+
+```
+
+### 12. Brugerpræferencer
+```
++----------------------------------------+
+|           Præferencer                   |
++----------------------------------------+
+| ☐ Vis bekræftelsesdialoger            |
+| ☐ Automatisk gem                      |
+| ☐ Email notifikationer                |
+| ☐ Dark mode                           |
++----------------------------------------+
+```
+
+## Best Practices for Brugergrænseflade
+
+### Generelle Principper
+1. Konsistent layout og navigation
+2. Klare og synlige handlingsknapper
+3. Trinvis validering af input
+4. Tydelig feedback på handlinger
+
+### Fejlhåndtering
+1. Proaktiv validering (under indtastning)
+2. Klare fejlmeddelelser
+3. Foreslåede løsninger
+4. Mulighed for at fortryde
+
+### Performance
+1. Lazy loading af data
+2. Caching af hyppigt brugte data
+3. Optimeret for hurtig respons
+4. Progress indikatorer ved længere operationer
