@@ -1,73 +1,102 @@
 # Skalerbarhed
 
-## Overordnet Strategi
+## Oversigt
+Dette dokument beskriver strategier og metoder for skalering af systemet.
 
-### Systemarkitektur
-- Modulær arkitektur der tillader uafhængig skalering af komponenter
-- Løst koblede komponenter via message queues
-- Container-baseret deployment med Docker
-- Fokus på høj throughput for vector søgninger
+## 1. Systemarkitektur
 
-## Database Skalering
+### Grundprincipper
+- Modulær opbygning af komponenter
+- Løst koblet arkitektur
+- Container-baseret deployment
+- Fokus på parallel processering
+
+### Skaleringsmetoder
+- Vertikal skalering af enkelte komponenter
+- Horisontal skalering via flere instanser
+- Load balancing mellem komponenter
+- Resource pool management
+
+## 2. Database Skalering
 
 ### Supabase Optimering
-- Connection pooling til håndtering af mange samtidige forbindelser
-- Partitionering af data baseret på company_id
-- Optimering af index strategier
-- Caching af hyppige forespørgsler
+- Connection pooling setup
+- Data partitionering efter company_id
+- Index strategi for høj volumen
+- Query optimering og caching
 
-### Vector Søgning Optimering
-- Effektiv indeksering af vector data
-- Optimering af chunk størrelse for vector data
-- Strategi for batch processing af nye vectors
-- Cache lag for hyppigt anvendte vector søgninger
-- Periodisk reindeksering for optimal søgehastighed
+### Vector Database
+- Optimeret vector indeksering
+- Chunk størrelse optimering
+- Batch processing af nye vectors
+- Cache strategi for vector søgninger
+- Periodisk reindeksering
 
-## Performance Optimering
+## 3. Performance Optimering
 
-### Webhook Håndtering
-- Asynkron processing af indkommende data
-- Queue-baseret system til høj volumen af samtaler
-- Automatisk retry mekanisme
+### Data Modtagelse
+- Queue-baseret data processing
+- Asynkron håndtering af webhooks
 - Batch processing hvor muligt
+- Automatisk retry system
 
-### Analysesystem
-- Optimering af LM-forespørgsler
+### Analyse System
 - Parallel processing af store datamængder
-- Caching af delresultater
+- Optimering af LM-forespørgsler
+- Caching af mellem-resultater
 - Prioritering af kritiske analyser
 
-## Cache Strategi
-- Multi-level caching
-- Cache invalidering strategi
+## 4. Cache System
+
+### Strategi
+- Multi-level caching implementering
 - Distribueret cache system
-- Separat cache for vector søgninger
+- Intelligent invalidering
+- Separate caches for forskellige datatyper
 
-## Monitorering
-- Performance metrics for kritiske operationer
-- Ressource forbrug overvågning
-- Automatiske alerts ved performance problemer
-- Logging af nøgletal
+### Cache Prioritering
+- Hyppigt anvendte vector søgninger
+- Mellem-resultater fra analyser
+- Metadata og lookup data
+- Session data
 
-## Backup Strategi
-- Regelmæssig backup af kritisk data
+## 5. Monitorering
+
+### System Metrics
+- Performance målinger
+- Resource forbrug
+- Response tider
+- Error rates
+
+### Alerting
+- Kritiske performance problemer
+- Resource mangel
+- Integrations fejl
+- Sikkerhedshændelser
+
+## 6. Backup og Recovery
+
+### Backup Strategi
+- Regelmæssig fuld backup
+- Inkrementelle backups
 - Point-in-time recovery mulighed
-- Verificering af backup integritet
+- Backup verifikation
 
-## Skalering i Praksis
-- Horisontal skalering af komponenter efter behov
-- Load balancing mellem instanser
-- Automatisk skalering baseret på load
-- Gradvis udrulning af nye versioner
+### Recovery Proces
+- Definerede recovery procedurer
+- Test af backup/restore
+- Dokumenteret failover proces
 
-## Ressource Optimering
-- Effektiv udnyttelse af hardware ressourcer
-- Optimering af memory forbrug
-- CPU prioritering for kritiske operationer
+## 7. Resource Optimering
+
+### Hardware Udnyttelse
+- CPU prioritering
+- Memory management
 - Disk I/O optimering
+- Network traffic optimering
 
-## Fremtidige Overvejelser
-- Optimering af vector søgning baseret på brugsdata
-- Forbedret caching baseret på anvendelsesmønstre
-- Yderligere optimering af analysesystem
-- Løbende performance forbedringer baseret på metrics
+### Load Management
+- Peak load håndtering
+- Resource allocation
+- Traffic shaping
+- Request prioritering
