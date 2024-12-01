@@ -1,65 +1,67 @@
 # Opsætning af Udviklingsmiljø
 
 ## Forudsætninger
-- Python 3.8+
-- Docker og Docker Compose
-- PostgreSQL
+- Python 3.8+ (allerede installeret)
+- VS Code
 - Git
+- Supabase account
 
-## Trin for Trin Guide
+## Miljø Setup
 
-### 1. Kloning af Repository
+### Virtual Environment
 ```bash
-git clone https://github.com/gaggelak/kundedata-integration-system.git
-cd kundedata-integration-system
-```
-
-### 2. Miljøvariabler
-Kopier `.env.example` til `.env` og udfyld:
-- DATABASE_URL
-- SUPABASE_URL
-- SUPABASE_KEY
-- EMAIL_SERVER_CONFIG
-- OPENAI_API_KEY
-
-### 3. Opsætning af Database
-```bash
-# Start PostgreSQL og Supabase
-docker-compose up -d database vectordb
-
-# Kør migrationer
-python manage.py migrate
-```
-
-### 4. Installation af Afhængigheder
-```bash
+# Opret virtual environment i projekt mappen
 python -m venv venv
-source venv/bin/activate  # På Windows: venv\Scripts\activate
+
+# Aktiver virtual environment (på Mac/Linux)
+source venv/bin/activate
+
+# Installer nødvendige pakker
 pip install -r requirements.txt
 ```
 
-### 5. Kør Tests
+### Supabase Setup
+1. Test Database
+   - Opret en separat database i din Supabase instance
+   - Navn: `kundedata_test`
+   - Bruges til udvikling og test
+
+2. Produktions Database
+   - Navn: `kundedata_prod`
+   - Kun til produktionsdata
+
+### VS Code Setup
+1. Anbefalede Extensions:
+   - Python extension
+   - Git extension
+
+2. Debug Setup:
+   - Simpel Python debug konfiguration
+   - Kør projektet med breakpoints
+
+## Daglig Udvikling
+
+### Skift Mellem Test/Produktion
 ```bash
-pytest
+# Test miljø (brug test database)
+export SUPABASE_DB=kundedata_test
+
+# Produktion (brug produktions database)
+export SUPABASE_DB=kundedata_prod
 ```
 
-### 6. Start Udviklingsserver
+### Kør Systemet Lokalt
 ```bash
-python manage.py runserver
+# Start systemet
+python src/main.py
 ```
 
-## Grenstruktur
-- `main` - Produktionskode
-- `udvikling` - Primær udviklingsgren
-- `funktion/*` - Funktionsgrene (f.eks. `funktion/chatbot-integration`)
+### Test Data
+- Begrænset test datasæt
+- Kør kun tests mod test databasen
+- Roll-back mulighed indenfor 24 timer via Supabase
 
-## Kodestil
-- PEP 8 standarder
-- Dokumentation på dansk
-- Variabelnavne på dansk
-
-## Docker Development
-Se `docker/README.md` for detaljer om Docker setup.
-
-## Hjælp og Support
-Kontakt teamet på [intern Teams kanal] eller opret et issue på GitHub.
+## Bemærkninger
+- Hold udvikling simpel med fokus på funktionalitet
+- Brug test databasen til udvikling
+- Undgå at påvirke produktionsdata under udvikling
