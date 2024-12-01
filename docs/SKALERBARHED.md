@@ -1,102 +1,102 @@
 # Skalerbarhed
 
 ## Oversigt
-Dette dokument beskriver strategier og metoder for skalering af systemet.
+Dette dokument beskriver strategier og metoder for skalering af systemet med fokus på høj performance og datavolumen.
 
-## 1. Systemarkitektur
+## 1. Arkitektur Principper
 
-### Grundprincipper
-- Modulær opbygning af komponenter
-- Løst koblet arkitektur
-- Container-baseret deployment
-- Fokus på parallel processering
+### Basis Struktur
+- Modulær opbygning med uafhængige komponenter
+- Mulighed for at skalere komponenter individuelt
+- Docker-baseret deployment
+- Service orienteret arkitektur
 
-### Skaleringsmetoder
-- Vertikal skalering af enkelte komponenter
-- Horisontal skalering via flere instanser
-- Load balancing mellem komponenter
-- Resource pool management
+### Skalerings Strategi
+- Automatisk skalering baseret på load
+- Vertikal skalering for database performance
+- Horisontal skalering for API og services
+- Central load balancing
 
 ## 2. Database Skalering
 
-### Supabase Optimering
-- Connection pooling setup
-- Data partitionering efter company_id
-- Index strategi for høj volumen
-- Query optimering og caching
+### Supabase Setup
+- Connection pooling for optimal udnyttelse
+- Partitionering af data på company_id
+- Optimerede indexes for hurtig søgning
+- Caching af hyppige forespørgsler
 
-### Vector Database
-- Optimeret vector indeksering
-- Chunk størrelse optimering
-- Batch processing af nye vectors
-- Cache strategi for vector søgninger
-- Periodisk reindeksering
+### Vector Optimering
+- Effektiv indeksering af embeddings
+- Optimeret chunk størrelse for vectors
+- Batch processing for nye dokumenter
+- Cache lag for vector søgninger
+- Periodisk vedligeholdelse af vector index
 
-## 3. Performance Optimering
+## 3. System Performance
 
-### Data Modtagelse
-- Queue-baseret data processing
-- Asynkron håndtering af webhooks
+### Webhook Processing
+- Queue-baseret data modtagelse
+- Asynkron data behandling
 - Batch processing hvor muligt
-- Automatisk retry system
+- Automatisk retry ved fejl
 
-### Analyse System
-- Parallel processing af store datamængder
-- Optimering af LM-forespørgsler
-- Caching af mellem-resultater
-- Prioritering af kritiske analyser
+### Analyse Engine
+- Parallel processing af data
+- Optimerede LM kald
+- Resultat caching
+- Prioritering af real-time requests
 
-## 4. Cache System
+## 4. Cache Strategi
 
-### Strategi
-- Multi-level caching implementering
-- Distribueret cache system
-- Intelligent invalidering
-- Separate caches for forskellige datatyper
+### Implementation
+- Multi-level caching system
+- Distribueret cache struktur
+- Smart cache invalidering
+- Dedikerede caches per datatype
 
-### Cache Prioritering
-- Hyppigt anvendte vector søgninger
-- Mellem-resultater fra analyser
-- Metadata og lookup data
-- Session data
+### Prioriteter
+- Vector søgningsresultater
+- LM analyse resultater
+- Metadata caching
+- Session information
 
-## 5. Monitorering
+## 5. System Monitorering
 
-### System Metrics
-- Performance målinger
-- Resource forbrug
-- Response tider
-- Error rates
+### Metrics
+- Real-time performance data
+- Resource utilization
+- API response tider
+- Error monitoring
 
-### Alerting
-- Kritiske performance problemer
-- Resource mangel
-- Integrations fejl
+### Notifikationer
+- Performance advarsler
+- Resource alerts
+- System fejl
 - Sikkerhedshændelser
 
-## 6. Backup og Recovery
+## 6. Data Backup
 
-### Backup Strategi
-- Regelmæssig fuld backup
-- Inkrementelle backups
-- Point-in-time recovery mulighed
-- Backup verifikation
+### Strategi
+- Daglig fuld backup
+- Løbende inkrementel backup
+- Point-in-time recovery
+- Backup validering
 
-### Recovery Proces
-- Definerede recovery procedurer
-- Test af backup/restore
-- Dokumenteret failover proces
+### Recovery Plan
+- Dokumenterede procedurer
+- Regelemæssig test af restore
+- Failover process
 
-## 7. Resource Optimering
+## 7. Resource Styring
 
-### Hardware Udnyttelse
-- CPU prioritering
+### Hardware
+- Optimal CPU anvendelse
 - Memory management
-- Disk I/O optimering
-- Network traffic optimering
+- I/O optimering
+- Network optimering
 
-### Load Management
+### Load Balancing
 - Peak load håndtering
-- Resource allocation
-- Traffic shaping
+- Resource fordeling
 - Request prioritering
+- Traffic management
