@@ -46,6 +46,26 @@ Prisberegningssystemet håndterer forskellige komponenter og kategorier for at k
    - Tilføj eventuelt overhead
    - Beregn eventuelle rabatter
 
+## Prisforklaring og Transparens
+
+### Kundevendt Forklaring
+- Detaljeret nedbrydning af hver priskomponent
+- Visuelle elementer (grafer/diagrammer) der viser prisfordeling
+- Forklaring i almindeligt sprog for hver delberegning
+- Sammenligning med standardpriser hvor relevant
+
+### Teknisk Sporbarhed
+- Log af alle delberegninger
+- Reference til anvendte prisdokumenter
+- Timestamp for hver delberegning
+- Versionering af anvendte prisdata
+
+### Beregningsdetaljer
+- Specificering af anvendte formler
+- Mellemregninger for hver komponent
+- Dokumentation af eventuelle særlige forhold
+- Markering af eventuelle estimater eller antagelser
+
 ## Prisdata Håndtering
 
 ### Prisdokumenter
@@ -64,12 +84,14 @@ Prisberegningssystemet håndterer forskellige komponenter og kategorier for at k
 - Detaljeret nedbrydning af pris
 - Separate linjer for hver komponent
 - Tydelig visning af delpriser
+- Forklarende tekst for hver komponent
 
 ### Dokumentation
 - Hvilke prislister der er anvendt
 - Hvilke beregninger der er foretaget
 - Timestamp for beregningen
 - Version af anvendte priser
+- Forklaringer på eventuelle særlige forhold
 
 ## Vedligeholdelse
 
@@ -101,8 +123,10 @@ Prisberegningssystemet håndterer forskellige komponenter og kategorier for at k
 - Gemme alle prisberegninger
 - Mulighed for at se tidligere beregninger
 - Analyse af prisændringer over tid
+- Forklaring af prisudvikling
 
 ### Statistik
 - Gennemsnitspriser per kategori
 - Identifikation af prismønstre
 - Afvigelsesrapporter
+- Forklaringer på statistiske afvigelser
