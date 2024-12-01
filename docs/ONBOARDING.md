@@ -1,191 +1,171 @@
 # Onboarding og Konfiguration
 
-[tidligere indhold bevares...]
+## Oversigt
+Dette dokument beskriver hvordan virksomhedskonfiguration håndteres direkte i CRM systemet.
 
-## Brugergrænseflade Specifikation
+## CRM Integration
 
-### 1. Hovedmenu
+### Placering i CRM
+Konfigurationsmodulet er tilgængeligt via hovedmenuen i CRM systemet:
+
+```
+https://jeres-crm.dk/
+  ├── /dashboard        # Hovedoversigt
+  ├── /leads           # Lead håndtering
+  ├── /configuration   # Konfiguration
+      ├── /prices      # Priskonfiguration
+      ├── /templates   # Pris skabeloner
+      └── /history     # Ændringshistorik
+```
+
+### Navigation
+
+#### Hovedmenu
 ```
 +---------------------------+
-|     Hovednavigation       |
+|        CRM Menu           |
 +---------------------------+
 | ✓ Dashboard              |
-| ✓ Priskonfiguration       |
-| ✓ Historik               |
-| ✓ Support                |
-| ✓ Indstillinger           |
+| ✓ Leads                  |
+| ✓ Kunder                 |
+| ✓ Priser & Konfiguration |
+| ✓ Rapporter              |
+| ✓ Indstillinger          |
 +---------------------------+
 ```
 
-### 2. Pris Dashboard
+#### Pris & Konfigurations Sektion
 ```
-+------------------+------------------+
-|   Aktive Priser  | Hurtig Statistik |
-+------------------+------------------+
-| • Materialer    | • Antal ændringer|
-| • Arbejdsløn    | • Sidst opdateret|
-| • Kørsel        | • Afvigelser     |
-+------------------+------------------+
-|      Seneste Ændringer           |
-+----------------------------------+
-| • Dato | Bruger | Type | Status   |
-+----------------------------------+
++---------------------------+
+| Priser & Konfiguration    |
++---------------------------+
+| • Prisoversigt           |
+| • Rediger Priser         |
+| • Import/Export          |
+| • Historik               |
+| • Skabeloner             |
++---------------------------+
 ```
 
-### 3. Pris Editor
+## Brugergrænseflade
 
-#### Materiale Priser
+### 1. Prisoversigt i CRM
 ```
 +----------------------------------------+
-| Kategori: [Vælg Kategori v]            |
+|   Prisoversigt - [Virksomhedsnavn]     |
 +----------------------------------------+
+| [Rediger Priser] [Import] [Historik]   |
+|                                        |
+| Aktive Prislister:                     |
+| • Materialer (Sidst opdateret: i dag)  |
+| • Arbejdsløn (Sidst opdateret: 3/12)  |
+| • Kørsel (Sidst opdateret: 1/12)      |
++----------------------------------------+
+```
+
+### 2. Pris Editor
+```
++----------------------------------------+
+|          Rediger Priser                |
++----------------------------------------+
+| Kategori: [Materialer v]               |
+|                                        |
+| [Bulk Rediger] [Import] [Export]       |
+|----------------------------------------|
 | Varenr. | Beskrivelse | Enhed | Pris   |
-|---------|-------------|--------|---------||
-| M001    | [          ]|  stk   |[      ]|
-| M002    | [          ]|  m2    |[      ]|
-+----------------------------------------+
-    [Gem] [Forhåndsvis] [Annuller]
-```
-
-#### Arbejdsløn Konfiguration
-```
-+----------------------------------------+
-| Medarbejdertype: [Vælg Type v]         |
-+----------------------------------------+
-| Timepris | Overtid | Weekend | Helligdag|
-|----------|----------|----------|----------|
-|[        ]|[        ]|[        ]|[        ]|
+|---------|-------------|--------|--------|
+| M001    | [          ]|  stk   |[     ]|
+| M002    | [          ]|  m2    |[     ]|
+|----------------------------------------|
+|    [Gem] [Forhåndsvis] [Annuller]      |
 +----------------------------------------+
 ```
 
-### 4. Import/Export Interface
+### 3. Import Funktion
 ```
 +----------------------------------------+
-|            Import Prisliste             |
+|            Import Priser                |
 +----------------------------------------+
 | [Download Skabelon]                     |
 |                                        |
 | [Vælg Fil]  eller  Træk fil hertil     |
 |                                        |
-| Format: [ Excel v ]                    |
-|                                        |
 | [Start Import] [Valider Først]         |
 +----------------------------------------+
 ```
 
-### 5. Historik og Versionering
+### 4. Historik Visning
 ```
 +----------------------------------------+
-|            Pris Historik                |
+|      Prisændrings Historik             |
 +----------------------------------------+
-| Dato     | Version | Ændringer  | Bruger |
-|----------|---------|------------|--------|
-| 01-12-24 | 2.1     | +3 priser  | ANE   |
-| 30-11-24 | 2.0     | Ny struktur| JM    |
-+----------------------------------------+
-    [Sammenlign] [Gendan] [Eksporter]
-```
-
-### 6. Valideringsvisning
-```
-+----------------------------------------+
-|         Validering af Ændringer         |
-+----------------------------------------+
-| ⚠ 3 advarsler fundet:                 |
-| • Pris M001 ændret med mere end 20%   |
-| • Ny kategori tilføjet                |
-| • 2 varer markeret som udgået         |
+| Periode: [Seneste 30 dage v]           |
 |                                        |
-| [Godkend Alligevel] [Rediger] [Afbryd] |
-+----------------------------------------+
-```
-
-### 7. Notifikationscenter
-```
-+----------------------------------------+
-|           Notifikationer                |
-+----------------------------------------+
-| • Nye priser awaiting review           |
-| • Bulk import completed                |
-| • 3 price validation warnings          |
+| Dato     | Type    | Ændring  | Bruger |
+|----------|---------|-----------|--------|
+| 1/12/24  | Manuel  | +3 priser | ANE   |
+| 30/11/24 | Import  | Bulk      | JM    |
 |                                        |
-| [Markér Alle Som Læst] [Indstillinger]  |
+| [Sammenlign] [Gendan Version]          |
 +----------------------------------------+
 ```
 
-### 8. Support Integration
-```
-+----------------------------------------+
-|              Support                    |
-+----------------------------------------+
-|    [Start Chat] [Book Møde]            |
-|                                        |
-| Ofte Stillede Spørgsmål:               |
-| • Hvordan importerer jeg priser?       |
-| • Hvordan håndterer jeg rabatter?     |
-| • Hvordan validerer jeg ændringer?    |
-+----------------------------------------+
-```
+## Roller og Rettigheder
 
-### 9. Mobile Responsive Design
-```
-// Mobil Layout
-+----------------------+
-|    ☰ Menu          |
-+----------------------+
-| Hurtig Adgang        |
-| • Se Priser         |
-| • Godkend Ændringer |
-| • Support           |
-+----------------------+
-```
+### Brugertyper i CRM
+1. **Admin**
+   - Fuld adgang til alle priser og konfigurationer
+   - Kan godkende ændringer
+   - Kan oprette nye brugere
 
-### 10. Kontekstafhjælpig Vejledning
-- Hover tooltips med forklaringer
+2. **Pris Manager**
+   - Kan redigere priser
+   - Kan importere nye prislister
+   - Kan se historik
+
+3. **Bruger**
+   - Kan se priser
+   - Kan generere tilbud
+   - Kan ikke redigere
+
+## Workflow
+
+### Prisændringer
+1. Bruger initierer ændring i CRM
+2. System validerer ændringer
+3. Preview af konsekvenser
+4. Godkendelse (hvis nødvendigt)
+5. Automatisk aktivering
+
+### Bulk Import
+1. Download aktuel skabelon fra CRM
+2. Udfyld ændringer i Excel
+3. Upload via CRM interface
+4. Validering og preview
+5. Godkendelse og aktivering
+
+## Support og Hjælp
+
+### Indbygget Hjælp
+- Kontekstbaserede tooltips
+- Video guides tilgængelige direkte i CRM
 - Step-by-step guides for komplekse opgaver
-- Video tutorials tilgængelige ved [?] ikoner
-- Intelligent fejlmeddelelser med løsningsforslag
 
-### 11. Keyboard Shortcuts
-```
-+----------------------------------------+
-|           Keyboard Shortcuts            |
-+----------------------------------------+
-| Ctrl + S    : Gem ændringer            |
-| Ctrl + Z    : Fortryd                  |
-| Ctrl + F    : Søg                      |
-| Ctrl + P    : Forhåndsvis              |
-+----------------------------------------+
-```
+### Support
+- Live chat support i CRM
+- Direkte link til support email
+- Telefonsupport via CRM dashboard
 
-### 12. Brugerpræferencer
-```
-+----------------------------------------+
-|           Præferencer                   |
-+----------------------------------------+
-| ☐ Vis bekræftelsesdialoger            |
-| ☐ Automatisk gem                      |
-| ☐ Email notifikationer                |
-| ☐ Dark mode                           |
-+----------------------------------------+
-```
+## Best Practices
 
-## Best Practices for Brugergrænseflade
+### For Brugere
+1. Gennemgå ændringer før aktivering
+2. Brug bulk import til store ændringer
+3. Dokumentér ændringer i kommentarfeltet
+4. Tag backup før større ændringer
 
-### Generelle Principper
-1. Konsistent layout og navigation
-2. Klare og synlige handlingsknapper
-3. Trinvis validering af input
-4. Tydelig feedback på handlinger
-
-### Fejlhåndtering
-1. Proaktiv validering (under indtastning)
-2. Klare fejlmeddelelser
-3. Foreslåede løsninger
-4. Mulighed for at fortryde
-
-### Performance
-1. Lazy loading af data
-2. Caching af hyppigt brugte data
-3. Optimeret for hurtig respons
-4. Progress indikatorer ved længere operationer
+### For Administratorer
+1. Opsæt notifikationer for prisændringer
+2. Gennemgå historik regelmæssigt
+3. Vedligehold priskategorier
+4. Opdater skabeloner efter behov
