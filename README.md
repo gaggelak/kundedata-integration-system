@@ -1,11 +1,13 @@
 # Kundedata Integration System
 
 ## Projektoversigt
-Dette system integrerer forskellige datakilder til et samlet CRM-system:
-- Chatbot samtalehistorik
-- Email korrespondance
+Dette system modtager og analyserer kundedata fra forskellige kilder:
+- Chatbot samtalehistorik (via webhook)
+- Email korrespondance (via email forwarding)
 - Hjemmeside data
 - Vidensbase dokumenter
+
+Systemet analyserer data og genererer anbefalinger til næste skridt samt prisberegninger.
 
 ## Systemkrav
 - Python 3.8+
@@ -32,10 +34,10 @@ kundedata-integration-system/
 ## Udviklingsstatus
 - [x] Initial repository oprettet
 - [ ] Database skema design
-- [ ] API udvikling
+- [ ] Webhook endpoint implementering
+- [ ] Email modtagelse setup
+- [ ] Analyse implementering
 - [ ] Frontend udvikling
-- [ ] Docker setup
-- [ ] Test implementation
 
 ## Licens
 Dette projekt er under udvikling og licensbetingelser vil blive tilføjet senere.
