@@ -5,10 +5,10 @@ Dette dokument beskriver hvordan systemet integrerer med forskellige datakilder.
 
 ## 1. Chatbot Webhook Integration
 
-### Endpoint
+### Endpoint Struktur
+- Produktions endpoint: `https://api.jeres-crm.dk/webhook/chatbot`
+- Test endpoint: `https://api-test.jeres-crm.dk/webhook/chatbot`
 - Wotnot webhook URL format: `https://hooks.wotnot.io/incoming/webhook/{webhook_id}`
-- Implementering af webhook endpoint til at modtage data
-- Authentication detaljer implementeres når tilgængelige
 
 ### Data Håndtering
 - Modtag webhook payload
@@ -20,7 +20,8 @@ Dette dokument beskriver hvordan systemet integrerer med forskellige datakilder.
 ## 2. Email Integration
 
 ### Email Forwarding Setup
-- Dedikeret email adresse til at modtage forwards
+- Produktions email: `inbox@jeres-crm.dk`
+- Test email: `inbox-test@jeres-crm.dk`
 - Email parsing system
 - Tråd-identificering baseret på subject og references
 
@@ -46,6 +47,10 @@ Dette dokument beskriver hvordan systemet integrerer med forskellige datakilder.
 - Marker timestamp for seneste crawl
 
 ## 4. Dokument Upload
+
+### Upload Endpoints
+- Produktion: `https://api.jeres-crm.dk/upload`
+- Test: `https://api-test.jeres-crm.dk/upload`
 
 ### Upload Specifikationer
 - Tilladte filformater:
@@ -110,6 +115,10 @@ Følgende metadata gemmes for hvert dokument:
 
 ## 7. Monitorering
 
+### Endpoints
+- System status: `https://api.jeres-crm.dk/health`
+- Detailed health: `https://api.jeres-crm.dk/health/detailed`
+
 ### Performance
 - Responstider for hver integrationspunkt
 - Success/fejl rates
@@ -119,3 +128,15 @@ Følgende metadata gemmes for hvert dokument:
 - Kritiske integrationsfejl
 - Kapacitets advarsler
 - Sikkerhedshændelser
+
+## 8. Miljøer
+
+### Produktion
+- API Base URL: `https://api.jeres-crm.dk`
+- Frontend URL: `https://jeres-crm.dk`
+- Supabase Produktion Database
+
+### Test
+- API Base URL: `https://api-test.jeres-crm.dk`
+- Frontend URL: `https://test.jeres-crm.dk`
+- Supabase Test Database
