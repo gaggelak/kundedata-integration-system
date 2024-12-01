@@ -3,74 +3,57 @@
 ## Overordnet Systemstruktur
 
 ### Komponenter
-1. **Data Indsamling**
-   - Chatbot Integration
-   - Email Integration
-   - Hjemmeside Data Indsamling
-   - Kundespecifikke Dokumenter
-     - Upload håndtering
-     - Vektor konvertering
-     - Dokumentklassificering
+1. **Data Modtagelse**
+   - Webhook endpoint for chatbot data
+   - Email forwarding system
+   - Hjemmeside data indsamling
+   - Dokument upload håndtering
 
 2. **Database Lag**
    - Supabase (eksisterende)
-     - Kundesamtaler
+     - Kundesamtaler fra chatbot
      - Email korrespondance
      - Vektordata fra hjemmeside
      - Vektordata fra dokumenter
-     - Vidensbase
-     - Fælles kundenøgle (company_id) på tværs af alle datatyper
+     - Fælles kundenøgle (CVR)
 
-3. **Backend Services**
-   - API-lag til datahåndtering
-   - Forretningslogik
+3. **Analyse Services**
+   - Data processering
+   - Anbefalingsmodul
    - Pris-beregningsmodul
-   - Proces-anbefalingsmodul
-     - Analyse af chatbot interaktioner
-     - Analyse af email korrespondance
-     - Intelligent next-step forslag
 
-4. **Frontend/CRM**
-   - Brugergrænsflade til dataoversigt
-   - Lead-håndtering
+4. **CRM Interface**
+   - Visning af lead data
+   - Procesanbefalinger
    - Prisberegning
-   - Procesoverblik og anbefalinger
-   - Dokumenthåndtering per kunde
 
 ## Dataflow
-1. **Indsamling af Data**
-   - Chatbot → Database
-   - Email → Database
-   - Hjemmeside → Vektor Database
-   - Dokumenter → Vektor Database
-   - Alt data tagges med company_id
+1. **Data Modtagelse**
+   - Modtag chatbot data via webhook
+   - Modtag emails via forwarding
+   - Indsaml hjemmeside data
+   - Håndter dokumentupload
 
 2. **Data Processering**
-   - Sammenkædning af al kundedata via company_id
-   - Berigelse med hjemmesidedata
-   - Dokumentanalyse og kategorisering
-   - Prisberegning baseret på vidensbase
-   - Procesanalyse og næste-skridt beregning
+   - Vector konvertering af al data
+   - Analyse af kundeinteraktioner
+   - Prisberegning baseret på data
 
-3. **Data Præsentation**
-   - CRM visning af kundedata
-   - Lead-scoring og prioritering
-   - Handlingsforslag baseret på data
-   - Samlet kundeoverblik med alle datakilder
-   - Procesvejledning og anbefalinger
+3. **CRM Præsentation**
+   - Samlet lead overblik
+   - Anbefalinger til næste skridt
+   - Prisberegning og estimater
 
 ## Sikkerhed og Performance
-- Sikker datahåndtering i Supabase
-- Optimeret databasestruktur
-- Caching hvor relevant
-- API-sikkerhed
+- Sikker datahåndtering
+- Optimeret søgning i vector data
+- Effektiv webhook håndtering
 - Sikker dokumenthåndtering
 
 ## Skalerbarhed
 - Modulær arkitektur
-- Microservices-tilgang hvor relevant
-- Mulighed for fremtidig udvidelse
-- Skalerbar dokumenthåndtering
+- Optimeret datahåndtering
+- Skalerbar analyse
 
 ## Teknisk Stack
 - Database: Supabase
@@ -81,37 +64,25 @@
 ## Udviklingsfaser
 1. **Fase 1: Grundlæggende Setup**
    - Repository struktur
-   - Basis dokumentation
-   - Udviklings-miljø
-   - Definition af fælles kundenøgle struktur
+   - Database setup
+   - Webhook endpoints
 
 2. **Fase 2: Data Håndtering**
-   - Database schema implementation
-   - Basis API endpoints
+   - Implementering af data modtagelse
+   - Vector konvertering
    - Data validering
-   - Dokument upload system
 
-3. **Fase 3: Integration**
-   - Chatbot integration
-   - Email integration
-   - Hjemmeside data integration
-   - Dokument processering
-   - Implementering af company_id på tværs af systemer
+3. **Fase 3: Analyse**
+   - Implementation af analysemodul
+   - Prisberegning
+   - Anbefalingssystem
 
-4. **Fase 4: Intelligent Processering**
-   - Udvikling af prisberegningsmodul
-   - Implementering af procesanalyse
-   - Udvikling af anbefalingssystem
-   - Integration af alle datakilder
-
-5. **Fase 5: CRM Implementation**
+4. **Fase 4: CRM Interface**
    - Frontend udvikling
-   - Lead-håndtering
-   - Samlet kundeoverblik
-   - Proces- og prisvisning
+   - Lead visning
+   - Anbefalingsvisning
 
-6. **Fase 6: Test og Optimering**
+5. **Fase 5: Test og Optimering**
    - Performance tests
    - Sikkerhedsgennemgang
    - Brugertest
-   - Optimering af anbefalinger
