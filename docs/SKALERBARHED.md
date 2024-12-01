@@ -3,165 +3,71 @@
 ## Overordnet Strategi
 
 ### Systemarkitektur
-- Mikroservice-inspireret arkitektur med mulighed for at udskille komponenter
+- Modulær arkitektur der tillader uafhængig skalering af komponenter
 - Løst koblede komponenter via message queues
-- Uafhængig skalering af komponenter baseret på behov
-- Containeriseret deployment med Docker
-
-### Implementation
-```python
-# Eksempel på asynkron webhook håndtering
-from fastapi import FastAPI, BackgroundTasks
-from redis import Redis
-from rq import Queue
-
-app = FastAPI()
-q = Queue(connection=Redis())
-
-@app.post("/webhook")
-async def handle_webhook(data: dict, background_tasks: BackgroundTasks):
-    # Queue job i stedet for direkte processing
-    job = q.enqueue(process_webhook_data, data)
-    return {"job_id": job.id}
-```
+- Container-baseret deployment med Docker
+- Fokus på høj throughput for vector søgninger
 
 ## Database Skalering
 
 ### Supabase Optimering
-- Implementering af connection pooling:
-  ```python
-  from sqlalchemy import create_engine
-  from sqlalchemy.pool import QueuePool
-  
-  engine = create_engine(
-      "postgresql+psycopg2://user:pass@localhost/dbname",
-      poolclass=QueuePool,
-      pool_size=20,
-      max_overflow=10
-  )
-  ```
-- Partitionering af store tabeller baseret på company_id
-- Implementering af read replicas for tung læse-last
-- Materialized views for hyppigt anvendte queries
+- Connection pooling til håndtering af mange samtidige forbindelser
+- Partitionering af data baseret på company_id
+- Optimering af index strategier
+- Caching af hyppige forespørgsler
 
-### Vector Søgning
-- Implementering af vector chunking for store datasæt
-- Batch processing af vector operationer
-- Caching af hyppige vector søgninger:
-  ```python
-  from functools import lru_cache
-  
-  @lru_cache(maxsize=1000)
-  async def search_similar_vectors(vector, top_k=5):
-      return await supabase.rpc('match_vectors', {
-          'query_embedding': vector,
-          'match_count': top_k
-      })
-  ```
+### Vector Søgning Optimering
+- Effektiv indeksering af vector data
+- Optimering af chunk størrelse for vector data
+- Strategi for batch processing af nye vectors
+- Cache lag for hyppigt anvendte vector søgninger
+- Periodisk reindeksering for optimal søgehastighed
 
-## Message Queue System
+## Performance Optimering
 
-### RabbitMQ Implementation
-- Implementering af message queues for asynkron processing:
-  ```python
-  from aio_pika import connect_robust, Message
-  
-  async def publish_to_queue(data: dict):
-      connection = await connect_robust(
-          "amqp://guest:guest@localhost/"
-      )
-      channel = await connection.channel()
-      queue = await channel.declare_queue("data_processing")
-      
-      await channel.default_exchange.publish(
-          Message(body=json.dumps(data).encode()),
-          routing_key="data_processing"
-      )
-  ```
+### Webhook Håndtering
+- Asynkron processing af indkommende data
+- Queue-baseret system til høj volumen af samtaler
+- Automatisk retry mekanisme
+- Batch processing hvor muligt
+
+### Analysesystem
+- Optimering af LM-forespørgsler
+- Parallel processing af store datamængder
+- Caching af delresultater
+- Prioritering af kritiske analyser
 
 ## Cache Strategi
-
-### Redis Implementation
-- Multi-level caching med Redis:
-  ```python
-  import redis
-  from functools import wraps
-  
-  redis_client = redis.Redis(host='localhost', port=6379, db=0)
-  
-  def cache_result(expire_time=3600):
-      def decorator(f):
-          @wraps(f)
-          async def decorated_function(*args, **kwargs):
-              key = f"{f.__name__}:{args}:{kwargs}"
-              result = redis_client.get(key)
-              
-              if result is None:
-                  result = await f(*args, **kwargs)
-                  redis_client.setex(key, expire_time, json.dumps(result))
-              
-              return result
-          return decorated_function
-      return decorator
-  ```
+- Multi-level caching
+- Cache invalidering strategi
+- Distribueret cache system
+- Separat cache for vector søgninger
 
 ## Monitorering
+- Performance metrics for kritiske operationer
+- Ressource forbrug overvågning
+- Automatiske alerts ved performance problemer
+- Logging af nøgletal
 
-### Prometheus/Grafana Setup
-- Implementering af metrics:
-  ```python
-  from prometheus_client import Counter, Histogram
-  
-  WEBHOOK_COUNTER = Counter(
-      'webhook_requests_total',
-      'Total count of webhook requests'
-  )
-  
-  PROCESSING_TIME = Histogram(
-      'data_processing_seconds',
-      'Time spent processing data'
-  )
-  ```
+## Backup Strategi
+- Regelmæssig backup af kritisk data
+- Point-in-time recovery mulighed
+- Verificering af backup integritet
 
 ## Skalering i Praksis
+- Horisontal skalering af komponenter efter behov
+- Load balancing mellem instanser
+- Automatisk skalering baseret på load
+- Gradvis udrulning af nye versioner
 
-### Docker Swarm/Kubernetes
-- Definition af scaling policies:
-  ```yaml
-  version: '3.8'
-  services:
-    webhook_handler:
-      image: webhook_handler
-      deploy:
-        replicas: 3
-        resources:
-          limits:
-            cpus: '0.50'
-            memory: 512M
-        restart_policy:
-          condition: on-failure
-  ```
-
-### Load Testing
-- Implementering af load tests med Locust:
-  ```python
-  from locust import HttpUser, task
-  
-  class WebhookUser(HttpUser):
-      @task
-      def post_webhook(self):
-          self.client.post("/webhook", json={
-              "company_id": "test",
-              "data": "test_data"
-          })
-  ```
-
-## Backup og Recovery
-- Implementering af kontinuerlig backup
-- Point-in-time recovery mulighed
-- Cross-region backup strategi
+## Ressource Optimering
+- Effektiv udnyttelse af hardware ressourcer
+- Optimering af memory forbrug
+- CPU prioritering for kritiske operationer
+- Disk I/O optimering
 
 ## Fremtidige Overvejelser
-- GraphQL implementation for mere effektiv data-hentning
-- Event sourcing for bedre data historik
-- Geografisk distribution af services
+- Optimering af vector søgning baseret på brugsdata
+- Forbedret caching baseret på anvendelsesmønstre
+- Yderligere optimering af analysesystem
+- Løbende performance forbedringer baseret på metrics
