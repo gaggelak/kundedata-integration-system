@@ -26,33 +26,42 @@ Dette dokument beskriver strategier og metoder for skalering af systemet med fok
 - Caching af hyppige forespørgsler
 
 ### Vector Optimering
-- Effektiv indeksering af embeddings
-- Optimeret chunk størrelse for vectors
-- Batch processing for nye dokumenter
-- Cache lag for vector søgninger
-- Periodisk vedligeholdelse af vector index
+1. Indeksering
+   - Effektiv indeksering af embeddings
+   - Optimeret chunk størrelse
+   - Periodisk vedligeholdelse af index
+2. Performance
+   - Batch processing for nye dokumenter
+   - Cache lag for søgninger
+   - Parallelle søgninger
 
 ## 3. System Performance
 
 ### Webhook Processing
-- Queue-baseret data modtagelse
-- Asynkron data behandling
-- Batch processing hvor muligt
-- Automatisk retry ved fejl
+- Queue-baseret data modtagelse med følgende steps:
+  1. Modtag og valider data
+  2. Placer i processing queue
+  3. Asynkron behandling
+  4. Automatisk retry ved fejl
 
 ### Analyse Engine
-- Parallel processing af data
-- Optimerede LM kald
-- Resultat caching
-- Prioritering af real-time requests
+- Parallel processing af data med prioritering:
+  1. Real-time requests (højeste prioritet)
+  2. Batch analyser
+  3. Baggrunds processer
+- Cache strategi for hyppige analyser
 
 ## 4. Cache Strategi
 
 ### Implementation
-- Multi-level caching system
-- Distribueret cache struktur
-- Smart cache invalidering
-- Dedikerede caches per datatype
+1. Multi-level caching system
+   - Level 1: Memory cache
+   - Level 2: Distributed cache
+   - Level 3: Database cache
+2. Cache invalidering
+   - Time-based invalidering
+   - Event-based opdatering
+   - Selective purging
 
 ### Prioriteter
 - Vector søgningsresultater
@@ -63,40 +72,59 @@ Dette dokument beskriver strategier og metoder for skalering af systemet med fok
 ## 5. System Monitorering
 
 ### Metrics
-- Real-time performance data
-- Resource utilization
-- API response tider
-- Error monitoring
+1. Performance data
+   - Real-time metrics
+   - Historiske data
+   - Trend analyse
+2. Resource monitoring
+   - CPU/Memory forbrug
+   - Disk I/O
+   - Network utilization
 
 ### Notifikationer
-- Performance advarsler
-- Resource alerts
-- System fejl
+- Performance advarsler baseret på definerede tærskelværdier
+- Resource alerts ved kritiske niveauer
+- System fejl notifikationer
 - Sikkerhedshændelser
 
 ## 6. Data Backup
 
 ### Strategi
-- Daglig fuld backup
-- Løbende inkrementel backup
-- Point-in-time recovery
-- Backup validering
+1. Backup schedule
+   - Daglig fuld backup
+   - Timelige inkrementelle backups
+   - Real-time transaction logs
+2. Backup verifikation
+   - Automatisk validering
+   - Periodisk restore test
 
 ### Recovery Plan
-- Dokumenterede procedurer
-- Regelemæssig test af restore
-- Failover process
+1. Standard recovery procedure
+   - Definer recovery point objective (RPO)
+   - Dokumenter restore steps
+   - Test procedure månedligt
+2. Failover proces
+   - Automatisk failover setup
+   - Manual override mulighed
 
 ## 7. Resource Styring
 
-### Hardware
-- Optimal CPU anvendelse
-- Memory management
-- I/O optimering
-- Network optimering
+### Hardware Optimering
+1. CPU management
+   - Process prioritering
+   - Load distribution
+   - Throttling af baggrunds tasks
+2. Memory/IO
+   - Buffer optimering
+   - Cache størrelse justering
+   - Disk I/O scheduling
 
-### Load Balancing
-- Peak load håndtering
-- Resource fordeling
-- Request prioritering
-- Traffic management
+### Load Management
+1. Request håndtering
+   - Intelligent routing
+   - Rate limiting
+   - Priority queueing
+2. Resource allocation
+   - Dynamic scaling
+   - Resource pooling
+   - Peak load planning
