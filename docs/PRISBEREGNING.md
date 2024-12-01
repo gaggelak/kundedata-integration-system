@@ -4,20 +4,35 @@
 
 Prisberegningssystemet håndterer forskellige komponenter og kategorier for at komme frem til en samlet pris.
 
-### Pris Komponenter
-1. Materialer
-   - Priser fra prisliste dokumenter
-   - Kategoriseret efter type
-   - Mængde/antal håndtering
+## API Integration
 
-2. Kørsel
-   - Fast takst eller kilometerbaseret
-   - Zoneinddelinger hvis relevant
+### Endpoints
+- Get pris: `GET /api/price/{cvr}`
+- Beregn pris: `POST /api/price/calculate`
+- Hent historik: `GET /api/price/history/{cvr}`
+- Opdater prislister: `PUT /api/price/lists`
 
-3. Arbejdsløn
-   - Timepriser
-   - Forskellige medarbejderkategorier
-   - Estimeret tidsforbrug
+### Brugeradgang
+- Admin: Fuld adgang til alle prisfunktioner
+- Manager: Kan redigere prislister
+- User: Kan se og beregne priser
+- Readonly: Kan kun se priser
+
+## Pris Komponenter
+
+### 1. Materialer
+- Priser fra prisliste dokumenter
+- Kategoriseret efter type
+- Mængde/antal håndtering
+
+### 2. Kørsel
+- Fast takst eller kilometerbaseret
+- Zoneinddelinger hvis relevant
+
+### 3. Arbejdsløn
+- Timepriser
+- Forskellige medarbejderkategorier
+- Estimeret tidsforbrug
 
 ## Beregningsprocess
 
@@ -78,6 +93,19 @@ Prisberegningssystemet håndterer forskellige komponenter og kategorier for at k
 - Arbejdstype kategorier
 - Kørselstyper
 
+## CRM Integration
+
+### Visning i CRM
+- Prishistorik per kunde
+- Sammenligning med lignende kunder
+- Grafisk repræsentation af prisudvikling
+
+### Brugerinterface
+- Nem adgang til prisberegning
+- Intuitivt input af mængder
+- Real-time prisopdatering
+- PDF export af tilbud
+
 ## Output
 
 ### Prisspecifikation
@@ -130,3 +158,17 @@ Prisberegningssystemet håndterer forskellige komponenter og kategorier for at k
 - Identifikation af prismønstre
 - Afvigelsesrapporter
 - Forklaringer på statistiske afvigelser
+
+## System Integration
+
+### Backend API
+- RESTful endpoints
+- Caching af hyppige beregninger
+- Batch beregninger
+- Async processing af tunge beregninger
+
+### Frontend
+- React komponenter til prisvisning
+- Interaktive beregningsformularer
+- Real-time validering
+- Responsive design
