@@ -1,67 +1,130 @@
-# Opsætning af Udviklingsmiljø
+# Setup Guide
 
-## Forudsætninger
+## Udvikling
+
+### Forudsætninger
 - Python 3.8+ (allerede installeret)
-- VS Code
+- VS Code med extensions:
+  - Python
+  - Git
+  - REST Client (valgfri)
 - Git
 - Supabase account
 
-## Miljø Setup
+### Lokal Udvikling
 
-### Virtual Environment
+#### 1. Repository Setup
 ```bash
-# Opret virtual environment i projekt mappen
+# Klon repository
+git clone https://github.com/[organisation]/kundedata-integration-system.git
+cd kundedata-integration-system
+
+# Opret og aktiver virtual environment
 python -m venv venv
+source venv/bin/activate  # På Mac/Linux
 
-# Aktiver virtual environment (på Mac/Linux)
-source venv/bin/activate
-
-# Installer nødvendige pakker
+# Installér afhængigheder
 pip install -r requirements.txt
 ```
 
-### Supabase Setup
-1. Test Database
-   - Opret en separat database i din Supabase instance
-   - Navn: `kundedata_test`
-   - Bruges til udvikling og test
+#### 2. Miljøvariabler
+Kopiér `.env.example` til `.env` og udfyld:
+```env
+# Supabase
+SUPABASE_URL=din_supabase_url
+SUPABASE_KEY=din_supabase_key
 
-2. Produktions Database
-   - Navn: `kundedata_prod`
-   - Kun til produktionsdata
+# Database valg
+SUPABASE_DB=kundedata_test  # eller kundedata_prod
 
-### VS Code Setup
-1. Anbefalede Extensions:
-   - Python extension
-   - Git extension
-
-2. Debug Setup:
-   - Simpel Python debug konfiguration
-   - Kør projektet med breakpoints
-
-## Daglig Udvikling
-
-### Skift Mellem Test/Produktion
-```bash
-# Test miljø (brug test database)
-export SUPABASE_DB=kundedata_test
-
-# Produktion (brug produktions database)
-export SUPABASE_DB=kundedata_prod
+# Email config
+EMAIL_SERVER=smtp.example.com
+EMAIL_PORT=587
+EMAIL_USERNAME=user@example.com
+EMAIL_PASSWORD=password
 ```
 
-### Kør Systemet Lokalt
+#### 3. Database Setup
+1. Opret test database i Supabase dashboard
+2. Opret produktions database i Supabase dashboard
+3. Kør basis database setup via Supabase interface
+
+#### 4. Kør Lokalt
 ```bash
-# Start systemet
+# Start udviklings-server
 python src/main.py
 ```
 
-### Test Data
-- Begrænset test datasæt
-- Kør kun tests mod test databasen
-- Roll-back mulighed indenfor 24 timer via Supabase
+## Deployment
 
-## Bemærkninger
-- Hold udvikling simpel med fokus på funktionalitet
-- Brug test databasen til udvikling
-- Undgå at påvirke produktionsdata under udvikling
+### Frontend (CRM Interface)
+
+#### Vercel Setup
+1. Forkæl frontend repository til din GitHub konto
+2. Opret nyt projekt på Vercel
+3. Vælg repository og konfigurér build settings
+4. Tilføj miljøvariabler
+
+#### Netlify Alternativ
+1. Forkæl frontend repository
+2. Opret nyt site på Netlify
+3. Konfigurér build settings
+4. Tilføj miljøvariabler
+
+### Backend (API)
+
+#### DigitalOcean App Platform
+1. Forkæl backend repository
+2. Opret ny app på DigitalOcean
+3. Vælg repository og konfigurér
+4. Tilføj miljøvariabler
+5. Deploy
+
+### Monitoring
+
+#### Sundhedstjek
+- Backend status: `https://api.example.com/health`
+- Database connection: `https://api.example.com/health/db`
+- Email system: `https://api.example.com/health/email`
+
+#### Logs
+- Backend logs via DigitalOcean dashboard
+- Frontend logs via Vercel/Netlify dashboard
+- Database logs via Supabase dashboard
+
+## Vedligeholdelse
+
+### Database Backup
+- Automatisk daglig backup via Supabase
+- 24-timers roll-back mulighed
+- Separat test og produktion
+
+### Opdateringer
+```bash
+# Opdater dependencies
+pip install -r requirements.txt --upgrade
+
+# Commit ændringer
+git add requirements.txt
+git commit -m "Opdaterer dependencies"
+git push
+```
+
+## Fejlfinding
+
+### Almindelige Problemer
+
+1. **Database Connection Error**
+   - Tjek SUPABASE_URL og SUPABASE_KEY i .env
+   - Verificer database eksisterer
+   - Tjek netværksforbindelse
+
+2. **Email System Fejl**
+   - Tjek email credentials
+   - Verificer SMTP server tilgængelighed
+   - Tjek firewall indstillinger
+
+3. **Webhook Fejl**
+   - Verificer endpoint URL
+   - Tjek request format
+   - Gennemgå webhook logs
